@@ -1,0 +1,19 @@
+name: JIRA Integration Workflow
+
+on:
+  push:
+    branches:
+      - main  # Trigger workflow on pushes to the main branch
+  pull_request:
+    branches:
+      - main  # Trigger workflow on pull requests to the main branch
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Run integration script
+        run: python jira_integration.py  # Run your script
