@@ -1,0 +1,36 @@
+name: Jira Integration
+
+on:
+  push:
+    branches:
+      - main  # Change to your default branch if different
+    paths:
+      - user_stories.md  # Trigger only when user_stories.md is changed
+
+jobs:
+  create-jira-issues:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'  # Specify the Python version you are using
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install jira
+
+      - name: Run Jira Integration Script
+        env:
+          JIRA_SERVER: ${{ secrets.JIRA_SERVER }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          PROJECT_KEY: ${{ secrets.PROJECT_KEY }}
+        run: |
+          python jira_integration.py
+ 
