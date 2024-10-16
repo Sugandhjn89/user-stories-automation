@@ -1,14 +1,16 @@
 import os
-from jira import JIRA
+import requests
 import logging
+from jira import JIRA
+from requests.auth import HTTPBasicAuth
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Jira configuration from environment variables
-JIRA_SERVER = 'https://sugandhjn89-1728478357532.atlassian.net/jira'
-JIRA_EMAIL = os.getenv('JIRA_EMAIL')
-JIRA_API_TOKEN = os.getenv('JIRA_API_TOKEN')
+# JIRA configuration from environment variables
+JIRA_SERVER = 'https://sugandhjn89-1728478357532.atlassian.net'  # Updated to remove /rest/api/2/serverInfo
+JIRA_EMAIL = 'sugandhjn.89@gmail.com'
+JIRA_API_TOKEN = os.getenv('JIRA_API_TOKEN')  # Get API token from environment variables
 PROJECT_KEY = os.getenv('PROJECT_KEY')
 
 def read_user_stories(file_path):
@@ -18,7 +20,9 @@ def read_user_stories(file_path):
 
 def create_jira_issue(summary, description):
     try:
+        # Authenticate to JIRA
         jira = JIRA(server=JIRA_SERVER, basic_auth=(JIRA_EMAIL, JIRA_API_TOKEN))
+        # Create a new issue
         new_issue = jira.create_issue(
             project=PROJECT_KEY,
             summary=summary,
@@ -30,6 +34,11 @@ def create_jira_issue(summary, description):
         logging.error(f"Failed to create Jira issue: {e}")
 
 def main():
+    # Ensure the environment variables are set
+    if not PROJECT_KEY or not JIRA_API_TOKEN:
+        logging.error("PROJECT_KEY and JIRA_API_TOKEN environment variables must be set.")
+        return
+
     user_stories = read_user_stories(r'C:\Users\MY HP\Desktop\GitHub_Requirements\GroupBillPaymentUserStories\user_stories.md')
     for story in user_stories:
         lines = story.strip().split('\n')
