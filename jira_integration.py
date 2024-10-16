@@ -6,7 +6,7 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Jira configuration from environment variables
-JIRA_SERVER = os.getenv('https://sugandhjn89-1728478357532.atlassian.net/jira')
+JIRA_SERVER = 'https://sugandhjn89-1728478357532.atlassian.net/jira'
 JIRA_EMAIL = os.getenv('JIRA_EMAIL')
 JIRA_API_TOKEN = os.getenv('JIRA_API_TOKEN')
 PROJECT_KEY = os.getenv('PROJECT_KEY')
