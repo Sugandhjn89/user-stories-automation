@@ -6,7 +6,7 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Jira configuration from environment variables
-JIRA_SERVER = os.getenv('JIRA_SERVER')
+JIRA_SERVER = os.getenv('https://sugandhjn89-1728478357532.atlassian.net/jira')
 JIRA_EMAIL = os.getenv('JIRA_EMAIL')
 JIRA_API_TOKEN = os.getenv('JIRA_API_TOKEN')
 PROJECT_KEY = os.getenv('PROJECT_KEY')
@@ -30,7 +30,7 @@ def create_jira_issue(summary, description):
         logging.error(f"Failed to create Jira issue: {e}")
 
 def main():
-    user_stories = read_user_stories('user_stories.md')
+    user_stories = read_user_stories(r'C:\Users\MY HP\Desktop\GitHub_Requirements\GroupBillPaymentUserStories\user_stories.md')
     for story in user_stories:
         lines = story.strip().split('\n')
         if lines:
